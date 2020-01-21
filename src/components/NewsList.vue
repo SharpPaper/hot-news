@@ -1,30 +1,35 @@
 <template>
-  <div>
-    <vertical-pull :down-func="pulldown" ref="verticalpull">
-      <ul>
-        <li v-for="(item,index) in newsList" :key="index">
-          <el-row :gutter="10">
-            <el-col :span="6">
-              <div class="pic">
-                <el-image :src="item.image" fit="scale-down" :preview-src-list="srcList">
-                  <div slot="error" class="image-slot image-error">
-                    <i class="el-icon-picture-outline"></i>
-                  </div>
-                </el-image>
-              </div>
-            </el-col>
-            <el-col :span="18">
-              <div class="introduction">
-                <a :href="item.link">{{item.keyword}}</a>
-                <p class="description">{{item.title}}</p>
-              </div>
-            </el-col>
-          </el-row>
-          <el-divider></el-divider>
-        </li>
-      </ul>
-    </vertical-pull>
-  </div>
+  <vertical-pull :down-func="pulldown" ref="verticalpull">
+    <ul>
+      <li v-for="(item,index) in newsList" :key="index">
+        <el-row :gutter="10">
+          <el-col :span="6">
+            <div class="pic">
+              <el-image
+                class="image"
+                :src="item.image"
+                fit="scale-down"
+                :preview-src-list="srcList"
+              >
+                <div slot="error">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </div>
+          </el-col>
+          <el-col :span="18">
+            <div class="introduction">
+              <router-link v-if="item.link" class="item-title" :to="{ path :'/NewsItem',query:{url:item.link}}">{{item.keyword}}&gt;&gt;</router-link>
+              <router-link v-else class="item-title" :to="{ path :'/NewsItem',query:{url:'https://www.baidu.com/s?wd='+item.keyword}}">{{item.keyword}}&nbsp;<i class="el-icon-search"></i></router-link>
+              
+              <p class="description">{{item.title}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-divider></el-divider>
+      </li>
+    </ul>
+  </vertical-pull>
 </template>
 
 <script>
@@ -41,8 +46,6 @@ export default {
   methods: {
     refresh: function() {
       var self = this;
-      console.log(3);
-      self.$refs.verticalpull.onDownFunc();
       this.$ajax
         .get("GetNewsList")
         .then(res => {
@@ -50,17 +53,17 @@ export default {
           res.data.forEach(item => {
             if (item.image) {
               self.srcList.push(item.image);
+            } else {
+              item.image = "";
             }
           });
           self.newsList = res.data;
         })
         .finally(() => {
           self.$refs.verticalpull.onDownFunc();
-          // self.$refs.loadmore.onTopLoaded();
         });
     },
-    pulldown(){
-      console.log(2);
+    pulldown() {
       this.refresh();
     },
     show: function() {
@@ -69,10 +72,8 @@ export default {
     }
   },
   created: function() {
-    console.log("created");
   },
   mounted: function() {
-    console.log("mounted");
     this.refresh();
   }
 };
@@ -80,6 +81,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f5f7fa;
+  color: #909399;
+}
+.item-title {
+  font-size: 16px;
+}
 ul {
   list-style-type: none;
   padding: 0;

@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "element-ui": "^2.13.0",
+    "iframe-resizer": "^4.2.9",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
@@ -60,5 +61,15 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "main": ".postcssrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SharpPaper/hot-news.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SharpPaper/hot-news/issues"
+  },
+  "homepage": "https://github.com/SharpPaper/hot-news#readme"
 }

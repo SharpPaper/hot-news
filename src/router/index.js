@@ -11,10 +11,13 @@ export default new Router({
     {
       path: '/',
       name: 'NewsList',
-      component: NewsList
+      component: NewsList,
+      meta:{
+        keepAlive:true,
+      }
     },
     {
-      path: '/news-item',
+      path: '/NewsItem',
       name: 'NewsItem',
       component: NewsItem
     }

@@ -79,7 +79,6 @@ export default {
   },
   watch: {
     downStatus(val){
-      console.log(val);
       switch(val){
         case 'drop':
           this.downText = this.downDropText;
@@ -96,10 +95,10 @@ export default {
   methods: {
     onDownFunc() {
       this.translate = 0;
-      this.downStatus = "pull";
-      // setTimeout(() => {
-      //   this.downStatus = "pull";
-      // }, 200);
+      //this.downStatus = "pull";
+      setTimeout(() => {
+        this.downStatus = "pull";
+      }, 200);
     },
     init() {
       this.downText = this.downPullText;
@@ -113,7 +112,7 @@ export default {
       this.$el.addEventListener("touchend", this.handleTouchEnd);
     },
     handleTouchStart(event) {
-      console.log(event);
+      
       this.startY = event.touches[0].clientY;
       if (this.downStatus !== "loading") {
         this.downStatus = "pull";
