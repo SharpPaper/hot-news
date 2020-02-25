@@ -41,7 +41,7 @@ export default {
       showDrawer: false,
       settings: {
         msg: "",
-        isHttps: false
+        isHttps: true
       }
     };
   },
@@ -69,7 +69,7 @@ export default {
       let str = localStorage.getItem("settings");
       let settings = str
         ? JSON.parse(str)
-        : { msg: "实时热点", isHttps: false };
+        : { msg: "实时热点", isHttps: true };
       return settings;
     },
     Save() {
@@ -77,6 +77,7 @@ export default {
       this.settings = this.getSettings();
       this.getBaseUrl();
       this.closeSettings();
+      this.reload()
     },
     getBaseUrl(){
       let baseUrl = this.$ajax.defaults.baseURL;
@@ -85,6 +86,11 @@ export default {
       baseUrl = protocal + baseUrl.slice(index);
       console.log(baseUrl);
       this.$ajax.defaults.baseURL = baseUrl;
+    },
+    reload(){
+      this.$nextTick(()=>{
+        location.reload();
+      })
     }
   },
   created() {
