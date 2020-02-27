@@ -1,5 +1,11 @@
 <template>
   <vertical-pull :down-func="pulldown" ref="verticalpull">
+    <el-alert v-if="isShowWarn"
+    title="https请求失败！"
+    type="warning"
+    show-icon>
+    请尝试在新标签中信任请求的<a :href="this.$ajax.defaults.baseURL" target="_blank">目标地址</a>.
+  </el-alert>
     <ul>
       <li v-for="(item,index) in newsList" :key="index">
         <el-row :gutter="10">
@@ -40,7 +46,8 @@ export default {
       msg: "实时热点",
       newsList: [],
       srcList: [],
-      wrapperHeight: 0
+      wrapperHeight: 0,
+      isShowWarn: true,
     };
   },
   methods: {
@@ -58,6 +65,12 @@ export default {
             }
           });
           self.newsList = res.data;
+        })
+        .catch(err=>{
+          console.log(err);
+          if(~self.$ajax.defaults.baseURL.indexOf('https')){
+            self.isShowWarn = true;
+          }
         })
         .finally(() => {
           self.$refs.verticalpull.onDownFunc();
