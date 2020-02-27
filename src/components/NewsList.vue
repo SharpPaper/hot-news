@@ -47,7 +47,7 @@ export default {
       newsList: [],
       srcList: [],
       wrapperHeight: 0,
-      isShowWarn: true,
+      isShowWarn: false,
     };
   },
   methods: {
